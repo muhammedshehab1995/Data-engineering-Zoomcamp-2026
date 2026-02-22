@@ -1,0 +1,35 @@
+Question 1: Bruin Pipeline Structure
+Answer: .bruin.yml and pipeline.yml (assets can be anywhere)
+
+Bruin projects require a .bruin.yml configuration file at the root and a pipeline.yml to define the pipeline. Assets can be organized in any directory structure you prefer.
+==========================
+Question 2: Materialization Strategies
+Answer: time_interval - incremental based on a time column
+
+For processing specific time intervals (like monthly taxi data based on pickup_datetime), the time_interval strategy is ideal. It deletes and inserts data only for the specified time period, making it perfect for incremental processing of time-based partitions.
+==========================
+Question 3: Pipeline Variables
+Answer: bruin run --var 'taxi_types=["yellow"]'
+
+To override array variables in Bruin, you use --var with proper JSON array syntax in quotes. The single quotes protect the square brackets from shell interpretation.
+================================
+Question 4: Running with Dependencies
+Answer: bruin run --select ingestion.trips+
+
+The + suffix in --select means "run this asset and all downstream dependencies". This follows the dbt-style selection syntax that Bruin uses.
+============================
+Question 5: Quality Checks
+Answer: not_null: true
+ 
+To ensure a column never has NULL values, you add a not_null: true quality check in the asset definition. This validates that every row has a value in that column.
+==========================
+Question 6: Lineage and Dependencies
+Answer: bruin lineage
+
+The bruin lineage command visualizes the dependency graph between assets, showing how data flows through your pipeline.
+===========================
+Question 7: First-Time Run
+Answer: --full-refresh
+
+When running a pipeline for the first time or wanting to rebuild tables from scratch, use the --full-refresh flag. This ensures all tables are dropped and recreated, ignoring any incremental logic.
+==========================
