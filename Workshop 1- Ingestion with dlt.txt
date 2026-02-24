@@ -1,0 +1,44 @@
+Questions
+Question 1. What is the start date and end date of the dataset? (1 point)
+
+
+D SELECT
+┬╖     MIN(trip_pickup_date_time) as start_date,
+┬╖     MAX(trip_pickup_date_time) as end_date
+┬╖ FROM taxi_data.taxi_rides;
+┌──────────────────────────┬──────────────────────────┐
+│        start_date        │         end_date         │
+│ timestamp with time zone │ timestamp with time zone │
+├──────────────────────────┼──────────────────────────┤
+│ 2009-06-01 14:33:00+03   │ 2009-07-01 02:58:00+03   │
+└──────────────────────────┴──────────────────────────┘
+Answer: 2009-06-01 to 2009-07-01
+
+================================
+Question 2. What proportion of trips are paid with credit card? (1 point)
+
+
+D SELECT
+┬╖     ROUND(COUNT(*) FILTER (WHERE payment_type = 'Credit') * 100.0 / COUNT(*), 2) as credit_card_pct
+┬╖ FROM taxi_data.taxi_rides;
+┌─────────────────┐
+│ credit_card_pct │
+│     double      │
+├─────────────────┤
+│      26.66      │
+└─────────────────┘
+
+Answer: 26.66%
+=================================
+Question 3. What is the total amount of money generated in tips? (1 point)
+
+D SELECT
+┬╖     ROUND(SUM(tip_amt), 2) as total_tips
+┬╖ FROM taxi_data.taxi_rides;
+┌────────────┐
+│ total_tips │
+│   double   │
+├────────────┤
+│  6063.41   │
+└────────────┘
+Answer: $6,063.41
